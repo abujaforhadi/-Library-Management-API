@@ -2,6 +2,7 @@ import dotenv from "dotenv";
 import express, { Application, NextFunction, Request, Response } from 'express';
 import cors from 'cors';
 import routes from "./app/routes";
+import { globalErrorHandler } from "./app/middlewares/globalErrorHandler";
 
 dotenv.config();
 const app: Application = express();
@@ -18,11 +19,7 @@ app.get('/', (req: Request, res:Response) => {
 });
 
  // error-handler for if no route is found 
-app.use((req: Request, res: Response) => {
-    res.status(404).send({
-        success: false,
-        message: "Route not found!"
-    })
-});
+app.use(globalErrorHandler);
+
 
 export default app;
